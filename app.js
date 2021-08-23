@@ -28,7 +28,7 @@ app.get('/login', (req, res) => {
 app.post('/login', (req, res) => {
     const {name, password} = req.body;
 
-    users.forEach((value, index) => {
+    users.find((value, index) => {
         if (value.name === name && value.password === password) {
             res.redirect('/users/' + index);
         }
@@ -44,12 +44,13 @@ app.get('/registretion', (req, res) => {
 app.post('/registretion', (req, res) => {
     const {name, password} = req.body;
 
-    for (let user of users) {
-        if (user.name === name) {
+    users.find(value => {
+        if (value.name === name) {
             res.json('Такий мейл вже є');
             return;
         }
-    }
+    })
+
     users.push({name, password});
 
     const dbPath = path.join(__dirname, 'db', 'users.js');
