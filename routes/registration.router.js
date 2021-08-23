@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const {registrationController} = require('../controlles');
+const { registrationController } = require('../controlles');
 
 router.get('/', registrationController.getRegistration);
 
