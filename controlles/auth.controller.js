@@ -1,4 +1,4 @@
-const users = require('../db/users');
+const User = require('../dataBase/User');
 
 module.exports = {
     loginUser: (req, res, next) => {

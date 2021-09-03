@@ -8,20 +8,10 @@ const ErrorHandler = require('../errors/errorHandler')
 module.exports = {
     getSingleUsers: async (req, res, next) => {
         try {
-            const {user_id} = req.params;
-
-            const user = await User.findById(user_id);
-
-            if (!user) {
-                // res.status(404).json('User not fund');
-                // return;
-                throw new ErrorHandler(418, 'user not found')
-            }
-            res.json(user);
+            res.json(req.user);
         } catch (e) {
             next(e);
         }
-
     },
     createUser: async (req, res, next) => {
         // try {
@@ -54,5 +44,16 @@ module.exports = {
         res.json(users);
         // const allUser = await getUsers();
         // res.json(allUser)
+    },
+    deleteUser: async (req, res, next) => {
+        try {
+            const {user_id} = req.params;
+
+            await User.deleteOne({_id: user_id});
+
+            res.status(204).json(`User with id ${user_id} is deleted`);
+        } catch (e) {
+            next(e);
+        }
     }
 };

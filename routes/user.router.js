@@ -1,11 +1,14 @@
 const router = require('express').Router();
 
 const { userConttoller } = require('../controlles');
+const {isUserPresent, checkUniqueEmail} = require("../middlewares/user.middleware");
 
 router.get('/', userConttoller.getAllUsers);
 
-router.post('/', userConttoller.createUser);
+router.post('/', checkUniqueEmail, userConttoller.createUser);
 
-router.get('/:user_id', userConttoller.getSingleUsers);
+router.get('/:user_id', isUserPresent, userConttoller.getSingleUsers);
+
+router.delete('/:user_id', isUserPresent, userConttoller.deleteUser);
 
 module.exports = router;
