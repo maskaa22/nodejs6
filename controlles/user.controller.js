@@ -1,27 +1,29 @@
-const fs = require('fs/promises');
+const fs = require('fs');
 const path = require('path');
 
 const users = require('../db/users');
+const {writeUser, getUsers} = require("../servises/user-servise");
 
 module.exports = {
     getSingleUsers: (req, res) => {
-        const {
-            user_id
-        } = req.params;
-        const user = users[user_id];
+        try {
+            const { user_id } = req.params;
+            const user = users[user_id];
 
-        if (!user) {
-            res.status(404).json('User not fund');
-            return;
+            if (!user) {
+                res.status(404).json('User not fund');
+                return;
+            }
+            res.json(user);
+        } catch (e) {
+
         }
-        res.json(user);
-    },
-    setnewUser: (req, res) => {
-        const {
-            name, password
-        } = req.body;
 
-        // eslint-disable-next-line array-callback-return
+    },
+    createUser: async (req, res) => {
+        const { name, password } = req.body;
+        console.log(name);
+
         users.find((value) => {
             if (value.name === name) {
                 res.json('Такий мейл вже є');
@@ -29,18 +31,11 @@ module.exports = {
         });
 
         users.push({ name, password });
+        await writeUser(users);
 
-        const dbPath = path.join(__dirname, 'db', 'users.js');
-        const userTextForDb = `module.exports = \n${JSON.stringify(users)}`;
-
-        fs.writeFile(dbPath, userTextForDb, (err) => {
-            if (err) {
-                console.log(err);
-            }
-        });
-        res.redirect('/login');
+         res.redirect('/registration');
     },
-    getAllUsers: (req, res) => {
-        res.json(users);
+    getAllUsers: async (req, res) => {
+         res.json(users);
     }
 };

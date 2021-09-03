@@ -4,7 +4,7 @@ const { userConttoller } = require('../controlles');
 
 router.get('/', userConttoller.getAllUsers);
 
-router.post('/', userConttoller.setnewUser);
+router.post('/', userConttoller.createUser);
 
 router.get('/:user_id', userConttoller.getSingleUsers);
 
