@@ -1,31 +1,7 @@
-
-const path = require('path');
-const fs = require('fs');
-
-const dbPath = path.join(process.cwd(), 'db', 'users.js');
-
-const getUsers = async () => {
-    // try {
-    //     const data =  JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
-    //
-    //     //return JSON.parse(data);
-    //
-    // } catch (e) {
-    //     console.log(e);
-    // }
-
-
-};
-
-const writeUser = async (users) => {
-    try {
-
-        const userTextForDb = `module.exports = \n${JSON.stringify(users)}`;
-
-        await fs.writeFileSync(dbPath, userTextForDb);
-    } catch (e) {
-        console.log(e);
-    }
-};
-
-module.exports = { writeUser, getUsers };
+module.exports = {
+    createdUser: (schema, answer) => schema.create(answer),
+    findAllUser: (schema, answer) => schema.find(answer),
+    findUserById: (schema, answer) => schema.findById(answer),
+    deleteOneUser: (schema, answer) => schema.deleteOne({_id: answer}),
+    updateUserById: (schema, answer, newUser) => schema.updateOne({_id: answer}, newUser)
+}

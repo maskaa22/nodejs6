@@ -11,4 +11,6 @@ router.get('/:user_id', isUserPresent, userConttoller.getSingleUsers);
 
 router.delete('/:user_id', isUserPresent, userConttoller.deleteUser);
 
+router.patch('/:user_id', isUserPresent, userConttoller.updateUser);
+
 module.exports = router;

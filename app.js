@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const {PORT} = require('./config/variables');
-const {userRouter, registrationRouter, authRouter} = require('./routes');
+const {userRouter} = require('./routes');
 
 const app = express();
 
@@ -11,9 +11,7 @@ mongoose.connect('mongodb://localhost:27017/apr-2021');
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-app.use('/auth', authRouter);
 app.use('/users', userRouter);
-app.use('/registration', registrationRouter);
 app.use('*', _notFoundError);
 app.use(_mainErrorHandler);
 

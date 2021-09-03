@@ -1,11 +1,13 @@
 const User = require("../dataBase/User");
 const ErrorHandler = require("../errors/errorHandler");
+const userService = require('../servises/user-servise');
+
 module.exports = {
     isUserPresent: async (req, res, next) => {
         try {
             const {user_id} = req.params;
 
-            const user = await User.findById(user_id);
+            const user = await userService.findUserById(User, user_id);
 
             if (!user) {
                 throw new ErrorHandler(418, 'user not found')
