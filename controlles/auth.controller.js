@@ -1,7 +1,7 @@
 const users = require('../db/users');
 
 module.exports = {
-    loginUser: (req, res) => {
+    loginUser: (req, res, next) => {
 
         try {
             const {name, password} = req.body;
@@ -13,7 +13,7 @@ module.exports = {
                 }
             });
         } catch (e) {
-            res.json(e);
+            next(e);
         }
 
     },

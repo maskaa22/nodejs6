@@ -4,15 +4,18 @@ const fs = require('fs');
 
 const dbPath = path.join(process.cwd(), 'db', 'users.js');
 
-// const getUsers = async () => {
-//     try {
-//         const data =  fs.readFileSync(dbPath, 'utf-8')
-//         return JSON.parse(data);
-//
-//     } catch (e) {
-//         console.log(e);
-//     }
-// };
+const getUsers = async () => {
+    // try {
+    //     const data =  JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
+    //
+    //     //return JSON.parse(data);
+    //
+    // } catch (e) {
+    //     console.log(e);
+    // }
+
+
+};
 
 const writeUser = async (users) => {
     try {
@@ -25,4 +28,4 @@ const writeUser = async (users) => {
     }
 };
 
-module.exports = { writeUser };
+module.exports = { writeUser, getUsers };
