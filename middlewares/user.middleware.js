@@ -1,16 +1,16 @@
-const User = require("../dataBase/User");
-const ErrorHandler = require("../errors/errorHandler");
-const userService = require('../servises/user-servise');
+const User = require('../dataBase/User');
+const ErrorHandler = require('../errors/errorHandler');
+const service = require('../servises');
 
 module.exports = {
     isUserPresent: async (req, res, next) => {
         try {
-            const {user_id} = req.params;
+            const { user_id } = req.params;
 
-            const user = await userService.findUserById(User, user_id);
+            const user = await service.userServise.findUserById(User, user_id);
 
             if (!user) {
-                throw new ErrorHandler(418, 'user not found')
+                throw new ErrorHandler(418, 'user not found');
             }
             req.user = user;
 
@@ -25,7 +25,7 @@ module.exports = {
 
             const userByEmail = await User.findOne({ email });
 
-            if(userByEmail) {
+            if (userByEmail) {
                 throw new ErrorHandler(409, `Email ${email} is already exist`);
             }
 
@@ -33,7 +33,5 @@ module.exports = {
         } catch (e) {
             next(e);
         }
-
-
     }
-}
+};

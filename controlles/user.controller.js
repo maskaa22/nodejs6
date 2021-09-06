@@ -1,7 +1,8 @@
 const User = require('../dataBase/User');
-const userService = require('../servises/user-servise');
+const service = require('../servises');
 
 module.exports = {
+    // eslint-disable-next-line require-await
     getSingleUsers: async (req, res, next) => {
         try {
             res.json(req.user);
@@ -11,17 +12,17 @@ module.exports = {
     },
     createUser: async (req, res, next) => {
         try {
-            const createdUser = await userService.createdUser(User, req.body);
+            const createdUser = await service.userServise.createdUser(User, req.body);
 
             res.json(createdUser);
-        } catch (e){
+        } catch (e) {
             next(e);
         }
     },
     getAllUsers: async (req, res, next) => {
         try {
             const { allUsers } = req;
-            const users = await userService.findAllUser(User, allUsers);
+            const users = await service.userServise.findAllUser(User, allUsers);
 
             res.json(users);
         } catch (e) {
@@ -32,7 +33,7 @@ module.exports = {
         try {
             const { user_id } = req.params;
 
-            await userService.deleteOneUser(User, user_id);
+            await service.userServise.deleteOneUser(User, user_id);
 
             res.json(`User with id ${user_id} is deleted`);
         } catch (e) {
@@ -44,7 +45,7 @@ module.exports = {
             const { user_id } = req.params;
             const newUser = req.body;
 
-            await userService.updateUserById(User, user_id, newUser);
+            await service.userServise.updateUserById(User, user_id, newUser);
 
             res.json(`User with id ${user_id} is update`);
         } catch (e) {
