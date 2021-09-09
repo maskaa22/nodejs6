@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const { PORT } = require('./config/variables');
-const { userRouter, carRouter } = require('./routes');
+const { userRouter, authRouter} = require('./routes');
 
 const app = express();
 
@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/users', userRouter);
-app.use('/cars', carRouter);
+app.use('/auth', authRouter);
 app.use('*', _notFoundError);
 app.use(_mainErrorHandler);
 

@@ -3,14 +3,15 @@ const router = require('express').Router();
 const { userConttoller } = require('../controlles');
 const { userMiddleware } = require('../middlewares');
 
-router.get('/', userConttoller.getAllUsers);
+router.get('/', userMiddleware.validateUserAll, userConttoller.getAllUsers);
 
-router.post('/', userMiddleware.checkUniqueEmail, userConttoller.createUser);
+router.post('/', userMiddleware.validateUserBody, userMiddleware.checkUniqueEmail, userConttoller.createUser);
 
-router.get('/:user_id', userMiddleware.isUserPresent, userConttoller.getSingleUsers);
+router.get('/:user_id', userMiddleware.validateUserForId, userMiddleware.isUserPresent, userConttoller.getSingleUsers);
 
-router.delete('/:user_id', userMiddleware.isUserPresent, userConttoller.deleteUser);
+router.delete('/:user_id', userMiddleware.validateUserForId, userMiddleware.isUserPresent, userConttoller.deleteUser);
 
-router.patch('/:user_id', userMiddleware.isUserPresent, userConttoller.updateUser);
+// eslint-disable-next-line max-len
+router.patch('/:user_id', userMiddleware.validateUserForId, userMiddleware.validateUpdateUser, userMiddleware.isUserPresent, userConttoller.updateUser);
 
 module.exports = router;
