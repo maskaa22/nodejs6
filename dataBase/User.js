@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const userRolesEnum = require('../config/user-roles-enum');
+const { userRolesEnumConfig } = require('../config');
 
 const userSchema = new Schema({
     name: {
@@ -21,8 +21,8 @@ const userSchema = new Schema({
     },
     role: {
         type: String,
-        default: userRolesEnum.USER,
-        enum: Object.values(userRolesEnum)
+        default: userRolesEnumConfig.USER,
+        enum: Object.values(userRolesEnumConfig)
     }
 }, { timestamps: true });
 

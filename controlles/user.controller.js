@@ -1,10 +1,9 @@
-const User = require('../dataBase/User');
-const service = require('../servises');
-const { userNormalizator } = require('../utils/user.util');
+const { UserDB } = require('../dataBase');
+const { userServise, passwordServise } = require('../servises');
+const { userUtil: { userNormalizator } } = require('../utils');
 
 module.exports = {
-    // eslint-disable-next-line require-await
-    getSingleUsers: async (req, res, next) => {
+    getSingleUsers: (req, res, next) => {
         try {
             const userToReturn = userNormalizator(req.user);
 
@@ -16,8 +15,8 @@ module.exports = {
     createUser: async (req, res, next) => {
         try {
             const { password } = req.body;
-            const hashedPassword = await service.passwordServise.hash(password);
-            const createdUser = await service.userServise.createdUser(User, { ...req.body, password: hashedPassword });
+            const hashedPassword = await passwordServise.hash(password);
+            const createdUser = await userServise.createdUser(UserDB, { ...req.body, password: hashedPassword });
 
             const userToReturn = userNormalizator(createdUser);
 
@@ -29,7 +28,7 @@ module.exports = {
     getAllUsers: async (req, res, next) => {
         try {
             const { allUsers } = req;
-            const users = await service.userServise.findAllUser(User, allUsers);
+            const users = await userServise.findAllUser(UserDB, allUsers);
 
             const usersToReturn = users.map((user) => userNormalizator(user));
 
@@ -42,7 +41,7 @@ module.exports = {
         try {
             const { user_id } = req.params;
 
-            await service.userServise.deleteOneUser(User, user_id);
+            await userServise.deleteOneUser(UserDB, user_id);
 
             res.json(`User with id ${user_id} is deleted`);
         } catch (e) {
@@ -54,7 +53,7 @@ module.exports = {
             const { user_id } = req.params;
             const newUser = req.body;
 
-           await service.userServise.updateUserById(User, user_id, newUser);
+            await userServise.updateUserById(UserDB, user_id, newUser);
 
             res.json(`User with id ${user_id} is update`);
         } catch (e) {

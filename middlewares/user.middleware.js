@@ -1,6 +1,6 @@
-const User = require('../dataBase/User');
-const ErrorHandler = require('../errors/errorHandler');
-const service = require('../servises');
+const { UserDB } = require('../dataBase');
+const { ErrorHandler } = require('../errors');
+const { userServise } = require('../servises');
 const uservalidator = require('../validators/user.validator');
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
         try {
             const { user_id } = req.params;
 
-            const user = await service.userServise.findUserById(User, user_id);
+            const user = await userServise.findUserById(UserDB, user_id);
 
             if (!user) {
                 throw new ErrorHandler(418, 'user not found');
@@ -24,7 +24,7 @@ module.exports = {
         try {
             const { email } = req.body;
 
-            const userByEmail = await User.findOne({ email });
+            const userByEmail = await UserDB.findOne({ email });
 
             if (userByEmail) {
                 throw new ErrorHandler(409, `Email ${email} is already exist`);

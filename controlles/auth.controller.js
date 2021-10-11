@@ -1,7 +1,5 @@
-// const { passwordService } = require('../services');
-const { userNormalizer } = require('../utils/user.util');
-const User = require('../dataBase/User');
-const service = require('../servises');
+const { passwordService } = require('../servises');
+const { userUtil: { userNormalizator } } = require('../utils');
 
 module.exports = {
     getUserLogin: (req, res, next) => {
@@ -11,16 +9,15 @@ module.exports = {
             next(e);
         }
     },
-
-    // eslint-disable-next-line require-await
-    postUserLogin: (req, res, next) => {
+    postUserLogin: async (req, res, next) => {
         try {
-            // const { user, password } = req.body;
-            //
-            // const login = await service.userServise.findOneUser(User, user);
-            //
-            // res.json(login);
-            res.json('11111');
+            const { password } = req.body;
+
+            await passwordService.compare(req.user.password, password);
+
+            const userToReturn = userNormalizator(req.user);
+
+            res.json(userToReturn);
         } catch (e) {
             next(e);
         }
