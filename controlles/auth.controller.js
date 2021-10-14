@@ -2,14 +2,16 @@ const { passwordService } = require('../servises');
 const { userUtil: { userNormalizator } } = require('../utils');
 
 module.exports = {
-    getUserLogin: (req, res, next) => {
+    login: (req, res, next) => {
         try {
-            res.json('Go to /users');
+            const { user } = req;
+
+            res.json(user);
         } catch (e) {
             next(e);
         }
     },
-    postUserLogin: async (req, res, next) => {
+    logout: async (req, res, next) => {
         try {
             const { password } = req.body;
 
