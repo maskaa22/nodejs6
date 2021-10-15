@@ -86,5 +86,18 @@ module.exports = {
         } catch (e) {
             next(e);
         }
+    },
+    checkUserRole: (roleArr = []) => (req, res, next) => {
+        try {
+            const { role } = req.user;
+
+            if (!roleArr.includes(role)) {
+                throw new ErrorHandler(402, 'Access denied');
+            }
+
+            next();
+        } catch (e) {
+            next(e);
+        }
     }
 };

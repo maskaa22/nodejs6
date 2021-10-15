@@ -18,7 +18,6 @@ app.use('*', _notFoundError);
 app.use(_mainErrorHandler);
 
 app.listen(PORT, () => {
-    console.log(process.env);
     console.log('App lesten', PORT);
 });
 

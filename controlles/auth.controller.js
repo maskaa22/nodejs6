@@ -1,5 +1,5 @@
-const { passwordService } = require('../servises');
 const { userUtil: { userNormalizator } } = require('../utils');
+const { UserDB } = require('../dataBase');
 
 module.exports = {
     login: (req, res, next) => {
@@ -15,13 +15,9 @@ module.exports = {
     },
     logout: async (req, res, next) => {
         try {
-            const { password } = req.body;
+            const users = await UserDB.find();
 
-            await passwordService.compare(req.user.password, password);
-
-            const userToReturn = userNormalizator(req.user);
-
-            res.json(userToReturn);
+            res.json(users);
         } catch (e) {
             next(e);
         }
