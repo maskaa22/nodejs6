@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 const { variablesConfig: { PORT, MONGO_CONNECT_URL } } = require('./config');
 const { userRouter, authRouter } = require('./routes');
@@ -17,6 +18,7 @@ app.use('*', _notFoundError);
 app.use(_mainErrorHandler);
 
 app.listen(PORT, () => {
+    console.log(process.env);
     console.log('App lesten', PORT);
 });
 

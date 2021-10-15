@@ -1,15 +1,15 @@
 const { ErrorHandler } = require('../errors');
-const { passwordService } = require('../servises');
+const { passwordServise } = require('../servises');
 
 const User = require('../dataBase/User');
 
 module.exports = {
     isUserEmailPresent: async (req, res, next) => {
         try {
-            const userByEmail = await User.findOne({ email: req.body.email }).select('+password');
+            const userByEmail = await User.findOne({ email: req.body.email }).select('+password').lean();
 
             if (!userByEmail) {
-                throw new ErrorHandler(409, 'Wrong email or password1');
+                throw new ErrorHandler(409, 'Wrong email or password');
             }
 
             req.user = userByEmail;
@@ -23,10 +23,8 @@ module.exports = {
         try {
             const { password } = req.body;
             const { password: hashPassword } = req.user;
-            console.log(req.user.password);
-            console.log(password);
 
-            await passwordService.compare(password, hashPassword);
+            await passwordServise.compare(password, hashPassword);
 
             next();
         } catch (e) {

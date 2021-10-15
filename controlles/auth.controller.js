@@ -6,7 +6,9 @@ module.exports = {
         try {
             const { user } = req;
 
-            res.json(user);
+            const userToReturn = userNormalizator(user);
+
+            res.json(userToReturn);
         } catch (e) {
             next(e);
         }
