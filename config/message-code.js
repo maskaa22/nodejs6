@@ -3,5 +3,7 @@ module.exports = {
     NOT_FOUND: 'User not found',
     CONFLICT_EMAIL: 'Email is already exist',
     NOT_ACCESS: 'Access denied',
-    RUNNING: 'App listen'
+    RUNNING: 'App listen',
+    NOT_TOKEN: 'Invalid token',
+    DELETED: 'Is deleted'
 };

@@ -5,7 +5,9 @@ const {
     authMiddleware: {
         isUserEmailPresent,
         isUserPasswordPresent,
-        validateLoginUser
+        validateLoginUser,
+        checkAccessToken,
+        checkRefreshToken
     }
 } = require('../middlewares');
 
@@ -15,6 +17,10 @@ router.post('/',
     isUserPasswordPresent,
     authController.login);
 
-router.post('/logout', isUserEmailPresent, authController.logout);
+router.post('/logout', checkAccessToken, authController.logout);
+
+router.post('/refresh', checkRefreshToken, authController.login);
+
+router.delete('/', checkAccessToken, authController.deleteAcount);
 
 module.exports = router;
