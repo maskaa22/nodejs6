@@ -1,5 +1,5 @@
-const { userUtil: { userNormalizator } } = require('../utils');
 const { UserDB } = require('../dataBase');
+const { userUtil: { userNormalizator } } = require('../utils');
 
 module.exports = {
     login: (req, res, next) => {

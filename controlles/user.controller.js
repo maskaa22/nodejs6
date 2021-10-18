@@ -5,9 +5,9 @@ const { userUtil: { userNormalizator } } = require('../utils');
 module.exports = {
     getSingleUsers: (req, res, next) => {
         try {
-            const userToReturn = userNormalizator(req.user);
+            const { user } = req;
 
-            res.json(userToReturn);
+            res.json(user);
         } catch (e) {
             next(e);
         }
@@ -27,12 +27,9 @@ module.exports = {
     },
     getAllUsers: async (req, res, next) => {
         try {
-            const { allUsers } = req;
-            const users = await userServise.findAllUser(UserDB, allUsers);
+            const users = await userServise.findAllUser(UserDB);
 
-            const usersToReturn = users.map((user) => userNormalizator(user));
-
-            res.json(usersToReturn);
+            res.json(users);
         } catch (e) {
             next(e);
         }

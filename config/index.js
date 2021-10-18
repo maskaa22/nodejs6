@@ -1,5 +1,7 @@
 module.exports = {
-    variablesConfig: require('./variables'),
+    constantsGerexpConfig: require('./constans-regexp'),
+    messageCode: require('./message-code'),
+    statusCode: require('./status-code'),
     userRolesEnumConfig: require('./user-roles-enum'),
-    constantsGerexpConfig: require('./constans-regexp')
+    variablesConfig: require('./variables')
 };

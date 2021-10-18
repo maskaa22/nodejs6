@@ -1,7 +1,8 @@
-const { UserDB } = require('../dataBase');
 const { ErrorHandler } = require('../errors');
+const { UserDB } = require('../dataBase');
 const { userServise } = require('../servises');
-const uservalidator = require('../validators/user.validator');
+const { userValidator } = require('../validators');
+const { statusCode, messageCode } = require('../config');
 
 module.exports = {
     isUserPresent: async (req, res, next) => {
@@ -11,7 +12,7 @@ module.exports = {
             const user = await userServise.findUserById(UserDB, user_id);
 
             if (!user) {
-                throw new ErrorHandler(418, 'user not found');
+                throw new ErrorHandler(statusCode.NOT_FOUND, messageCode.NOT_FOUND);
             }
             req.user = user;
 
@@ -27,7 +28,7 @@ module.exports = {
             const userByEmail = await UserDB.findOne({ email });
 
             if (userByEmail) {
-                throw new ErrorHandler(409, `Email ${email} is already exist`);
+                throw new ErrorHandler(statusCode.CONFLICT, messageCode.CONFLICT_EMAIL);
             }
 
             next();
@@ -37,49 +38,10 @@ module.exports = {
     },
     validateUserBody: (req, res, next) => {
         try {
-            const { error } = uservalidator.createUserValidator.validate(req.body);
+            const { error } = userValidator.createUserValidator.validate(req.body);
 
             if (error) {
-                throw new ErrorHandler(400, error.details[0].message);
-            }
-
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-    validateUpdateUser: (req, res, next) => {
-        try {
-            const { error } = uservalidator.updateUser.validate(req.body);
-
-            if (error) {
-                throw new ErrorHandler(400, error.details[0].message);
-            }
-
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-    validateUserForId: (req, res, next) => {
-        try {
-            const { error } = uservalidator.userValidatorForId.validate(req.body);
-
-            if (error) {
-                throw new ErrorHandler(400, error.details[0].message);
-            }
-
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-    validateUserAll: (req, res, next) => {
-        try {
-            const { error } = uservalidator.allUserValidator.validate(req.body);
-
-            if (error) {
-                throw new ErrorHandler(400, error.details[0].message);
+                throw new ErrorHandler(statusCode.BAD_REQUEST, error.details[0].message);
             }
 
             next();
@@ -92,7 +54,7 @@ module.exports = {
             const { role } = req.user;
 
             if (!roleArr.includes(role)) {
-                throw new ErrorHandler(402, 'Access denied');
+                throw new ErrorHandler(statusCode.FORBIDDED, messageCode.NOT_ACCESS);
             }
 
             next();
